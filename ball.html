@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>БАЛ ВОЗМОЖНОСТЕЙ | СТАРТ ВОЗМОЖНОСТЕЙ</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="ball.css">
+
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('sv_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo-container" onclick="location.href='index.html'">
+    <img src="startvoz.svg" alt="Логотип" class="logo-for-light"
+         onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
+    <img src="startvoz_light.svg" alt="Логотип" class="logo-for-dark"
+         onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
+    <div class="logo-text" id="logoFallback" style="display:none">СТАРТ ВОЗМОЖНОСТЕЙ</div>
+  </div>
+
+  <div class="nav-links">
+    <a href="#about">О бале</a>
+    <a href="#program">Программа</a>
+    <a href="#dresscode">Дресс-код</a>
+    <a href="#faq">Вопросы</a>
+    <a href="https://t.me/forum_mgupp" target="_blank" rel="noopener" class="nav-tg">
+      <i class="fa-brands fa-telegram"></i> Канал
+    </a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Сменить тему">
+      <i class="fa-solid fa-moon" id="themeIcon"></i>
+    </button>
+    <a class="btn btn-sm" href="https://forms.yandex.ru/u/6af12ef5de8ec3b7b1856d70" target="_blank" rel="noopener">
+      Регистрация
+    </a>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="badge"><i class="fa-solid fa-star"></i> Главное событие сезона</span>
+      <h1>Бал<br>Возможностей</h1>
+      <p>Вечер, где московские студенты встречаются в одном зале. Музыка, нетворкинг и <span class="keyword">незабываемые впечатления</span> каждому участнику.</p>
+      <div class="hero-actions">
+        <a class="btn" href="https://forms.yandex.ru/u/6af12ef5de8ec3b7b1856d70" target="_blank" rel="noopener">Стать участником</a>
+        <a class="btn btn-outline" href="#program">Смотреть программу</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="section bg-soft" id="about">
+    <h2 class="section-title">До конца регистрации осталось</h2>
+    <p class="section-sub">Регистрация закрывается 21 ноября — успейте присоединиться</p>
+    <div class="countdown-wrap">
+      <div class="countdown" id="countdown">
+        <div class="count-cell"><div class="count-num" id="cdDays">0</div><div class="count-lbl">дней</div></div>
+        <div class="count-cell"><div class="count-num" id="cdHours">0</div><div class="count-lbl">часов</div></div>
+        <div class="count-cell"><div class="count-num" id="cdMin">0</div><div class="count-lbl">минут</div></div>
+        <div class="count-cell"><div class="count-num" id="cdSec">0</div><div class="count-lbl">секунд</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="section" id="details">
+    <h2 class="section-title">О бале</h2>
+    <p class="section-sub">Всё, что нужно знать перед вечером</p>
+    <div class="event-grid">
+      <div class="event-card">
+        <div class="event-head"><span class="event-cat">Когда</span><span class="event-points"><i class="fa-solid fa-calendar"></i></span></div>
+        <div class="event-body">
+          <h3 class="event-title">Дата и время</h3>
+          <p class="event-desc">Точная дата ещё впереди: мы выбираем между <strong>концом февраля 2027</strong> и <strong>серединой апреля 2027</strong>. Финальный период зависит от количества ваших регистраций и условий площадки.</p>
+          <div class="event-meta"><span><i class="fa-solid fa-clock"></i> вечер</span></div>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-head"><span class="event-cat">Где</span><span class="event-points"><i class="fa-solid fa-location-dot"></i></span></div>
+        <div class="event-body">
+          <h3 class="event-title">Площадка</h3>
+          <p class="event-desc">Пока это <strong>сюрприз</strong>. Мы подбираем зал, достойный бала: с хорошей акустикой, паркетом и удобной локацией. О месте сообщим в информационном канале.</p>
+          <div class="event-meta"><span><i class="fa-solid fa-location-dot"></i> секрет</span></div>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-head"><span class="event-cat">Кому</span><span class="event-points"><i class="fa-solid fa-users"></i></span></div>
+        <div class="event-body">
+          <h3 class="event-title">Участники</h3>
+          <p class="event-desc">Только <strong>танцующие участники</strong> — зрителей не предусмотрено. Мы берём лучшие традиции балов 18–19 века и добавляем простой современный характер.</p>
+          <div class="event-meta"><span><i class="fa-solid fa-music"></i> только танцы</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELEGRAM -->
+  <section class="section tg-section">
+    <div class="tg-banner">
+      <div class="tg-icon"><i class="fa-brands fa-telegram"></i></div>
+      <div class="tg-text">
+        <h2>Информационный канал</h2>
+        <p>Все новости о бале — дата, площадка, дресс-код и организационные детали — публикуем здесь. Подпишитесь, чтобы не пропустить.</p>
+      </div>
+      <a class="btn tg-btn" href="https://t.me/forum_mgupp" target="_blank" rel="noopener">
+        <i class="fa-brands fa-telegram"></i> t.me/forum_mgupp
+      </a>
+    </div>
+  </section>
+
+  <!-- PROGRAM -->
+  <section class="section bg-soft" id="program">
+    <h2 class="section-title">Программа вечера</h2>
+    <p class="section-sub">Классика, которая объединяет</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-num">01</div><div class="tl-title">Открытие</div><div class="tl-desc">Торжественное открытие бала: приветствие организаторов и гостей, начало вечера.</div></div>
+      <div class="tl-item"><div class="tl-num">02</div><div class="tl-title">Полонез</div><div class="tl-desc">Торжественный танец-шествие, с которого начинается бал. Простая и красивая хореография — справится каждый.</div></div>
+      <div class="tl-item"><div class="tl-num">03</div><div class="tl-title">Вальс</div><div class="tl-desc">Главный танец вечера: плавный, парный, с ощущением настоящего бала.</div></div>
+      <div class="tl-item"><div class="tl-num">04</div><div class="tl-title">Полька или краковяк</div><div class="tl-desc">Живой, ритмичный финал танцевальной части — с улыбками и хорошим настроением.</div></div>
+    </div>
+  </section>
+
+  <!-- DRESSCODE -->
+  <section class="section" id="dresscode">
+    <h2 class="section-title">Дресс-код</h2>
+    <p class="section-sub">Базовый официальный и вечерний стиль — главное, чтобы было удобно</p>
+    <div class="dress-grid">
+      <div class="dress-card">
+        <i class="fa-solid fa-user-tie"></i>
+        <h3>Молодым людям</h3>
+        <p>Тёмный костюм и туфли.</p>
+        <ul>
+          <li>Тёмный костюм</li>
+          <li>Классические туфли</li>
+          <li>Перчатки — по желанию</li>
+        </ul>
+      </div>
+      <div class="dress-card">
+        <i class="fa-solid fa-person-dress"></i>
+        <h3>Девушкам</h3>
+        <p>Светлое платье и туфли.</p>
+        <ul>
+          <li>Светлое платье</li>
+          <li>Туфли</li>
+          <li>Объёмные причёски</li>
+        </ul>
+      </div>
+      <div class="dress-card">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <h3>Общий стиль</h3>
+        <p>Официально и вечерне, но удобно для танцев.</p>
+        <ul>
+          <li>Базовый официальный стиль</li>
+          <li>Вечерний характер</li>
+          <li>Комфорт для танцев</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section bg-soft" id="faq">
+    <h2 class="section-title">Частые вопросы</h2>
+    <p class="section-sub">Коротко о главном</p>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Будет ли всё это официально или стоит опасаться? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Не переживайте, бал будет регламентирован и официально зарегистрирован через определённую организацию — проблем не будет. Мы пока ждём подтверждения спроса на мероприятие за счёт ваших регистраций.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">В какие даты будет бал? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Есть два ориентировочных периода: конец февраля 2027 или середина апреля 2027. Дата зависит от ваших регистраций и, конечно же, от условий площадки, на которой мы будем выступать.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Можно ли приглашать людей из других вузов? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Не просто можно, а даже нужно. Мы рады абсолютно всем новым участникам: чем больше университетов будет в нашем событии, тем статуснее, круче и интереснее будет наше мероприятие и сообщество студентов столицы.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">В каком формате будет бал? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Мы берём лучшие традиции проведения русских и европейских балов 18–19 века, но при этом не усложняем ни хореографию, ни правила и привносим простой современный характер.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Можно ли прийти зрителем? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Нет, зрители не предусмотрены. Участники бала — только танцующие: каждый гость принимает участие в танцевальной программе.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Где будет проходить бал? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Площадка пока держится в секрете — мы подбираем зал, достойный бала. Как только место будет подтверждено, мы обязательно сообщим об этом в информационном канале.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Как зарегистрироваться? <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="faq-a">Регистрация проходит через Яндекс Формы — ссылка есть в шапке сайта и в блоке «Регистрация». Регистрация открыта до 21 ноября.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REG -->
+  <section class="section" id="reg">
+    <h2 class="section-title">Регистрация на бал</h2>
+    <p class="section-sub">Регистрация проходит через Яндекс Формы и открыта до 21 ноября</p>
+    <div class="reg-box">
+      <div class="reg-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+      <h3>Заполните форму</h3>
+      <p>Это займёт пару минут. После отправки мы свяжемся с вами и расскажем о дальнейших шагах.</p>
+      <a class="btn reg-btn" href="https://forms.yandex.ru/u/6af12ef5de8ec3b7b1856d70" target="_blank" rel="noopener">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Открыть Яндекс Форму
+      </a>
+      <p class="reg-hint">Регистрация закрывается <strong>21 ноября</strong></p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Готов блистать?</h2>
+    <p>Один вечер — новые знакомства, танцы и незабываемые эмоции.</p>
+    <a class="btn cta-btn" href="https://forms.yandex.ru/u/6af12ef5de8ec3b7b1856d70" target="_blank" rel="noopener">Зарегистрироваться</a>
+  </section>
+</main>
+
+<footer>
+  <span class="logo-text">СТАРТ ВОЗМОЖНОСТЕЙ</span>
+  <p>Цифровой акселератор коммуникаций для московской молодежи</p>
+  <p class="footer-tg">
+    <a href="https://t.me/forum_mgupp" target="_blank" rel="noopener">
+      <i class="fa-brands fa-telegram"></i> Информационный канал: t.me/forum_mgupp
+    </a>
+  </p>
+  <p class="footer-copy">© 2026 · Кейс-чемпионат CASE-IN · Проект «COMM-ACCELERATOR»</p>
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<script src="ball.js"></script>
+</body>
+</html>
