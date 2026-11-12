@@ -75,3 +75,4 @@ document.addEventListener('DOMContentLoaded', () => {
   tickCountdown();
   setInterval(tickCountdown, 1000);
 });
+
