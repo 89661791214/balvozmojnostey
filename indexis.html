@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Перезагрузить мозг</title>
+<style>
+  :root{
+    --bg:#0a0a12; --line:rgba(255,255,255,.08);
+    --text:#e9e9f2; --muted:#8b8ba3;
+    --panel:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; min-height:100vh;
+    background:
+      radial-gradient(1100px 560px at 50% -12%, #1a1030 0%, #0a0a12 62%),
+      #0a0a12;
+    color:var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    overflow-x:hidden;
+  }
+
+  /* ================= СТАРТОВЫЙ ЭКРАН ================= */
+  #start{
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  #start.hide{opacity:0; visibility:hidden}
+
+  .bg-cards{
+    position:absolute; inset:-10%;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
+    gap:18px;
+    padding:20px;
+    filter:blur(7px) saturate(.85);
+    opacity:.55;
+    transform:scale(1.06);
+    animation:drift 60s linear infinite alternate;
+  }
+  @keyframes drift{
+    from{transform:scale(1.06) translate3d(0,0,0)}
+    to{transform:scale(1.12) translate3d(-24px,-18px,0)}
+  }
+  .bg-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px 16px 18px;
+    min-height:120px;
+    display:flex; flex-direction:column; gap:10px;
+    color:var(--text);
+    font-size:14px; line-height:1.35;
+  }
+  .bg-card .dot{
+    width:26px; height:4px; border-radius:999px;
+    background:linear-gradient(90deg,#7c3aed,#db2777);
+    opacity:.8;
+  }
+  #start::after{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(700px 380px at 50% 50%, rgba(10,10,18,.55), rgba(10,10,18,.92) 70%),
+      linear-gradient(180deg, rgba(10,10,18,.6), rgba(10,10,18,.9));
+  }
+
+  .start-inner{
+    position:relative; z-index:2;
+    text-align:center; padding:32px 20px;
+    display:flex; flex-direction:column; align-items:center; gap:18px;
+  }
+  .start-kicker{
+    font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted);
+  }
+  .start-title{
+    margin:0; font-size:clamp(26px,5vw,46px); letter-spacing:-.03em;
+    font-weight:750; line-height:1.08;
+  }
+  .start-sub{
+    margin:0; max-width:460px; color:var(--muted);
+    font-size:15px; line-height:1.5;
+  }
+
+  /* ================= КНОПКИ ================= */
+  .btn{
+    border:0; cursor:pointer; color:#fff; font-weight:650;
+    font-size:17px; padding:16px 34px; border-radius:999px;
+    background:linear-gradient(135deg,#7c3aed,#db2777 58%,#f59e0b);
+    box-shadow:0 14px 44px -14px rgba(168,85,247,.95), inset 0 1px 0 rgba(255,255,255,.25);
+    transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .btn:hover{transform:translateY(-1px); box-shadow:0 20px 52px -14px rgba(168,85,247,1)}
+  .btn:active{transform:translateY(1px) scale(.99)}
+
+  /* ================= РАБОЧИЙ ЭКРАН ================= */
+  #app{
+    min-height:100vh; padding:36px 20px 56px;
+    display:flex; justify-content:center;
+  }
+  .app-inner{
+    width:100%; max-width:860px;
+    display:flex; flex-direction:column; align-items:center; gap:24px;
+    margin:0 auto;
+  }
+  h1{
+    margin:0; font-size:clamp(20px,3.4vw,30px);
+    letter-spacing:-.02em; text-align:center;
+  }
+  .sub{margin:6px 0 0; color:var(--muted); font-size:14px; text-align:center}
+
+  .panels{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:22px;
+    width:100%;
+    align-items:stretch;
+  }
+  @media (max-width:720px){
+    .panels{grid-template-columns:1fr; max-width:420px; margin:0 auto}
+  }
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:22px;
+    display:flex; flex-direction:column; gap:14px;
+    min-height:340px;
+  }
+  .label{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  }
+  .qtext{
+    font-size:clamp(18px,2.4vw,24px); line-height:1.34; font-weight:650;
+  }
+  .qmeta{margin-top:auto; font-size:12px; color:var(--muted)}
+
+  .card-wrap{
+    position:relative;
+    flex:1;
+    border-radius:14px;
+    overflow:hidden;
+    background:#05050a;
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:0 20px 48px -24px rgba(0,0,0,.95);
+    min-height:260px;
+  }
+  #cv{display:block; width:100%; height:100%}
+
+  .loading{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:14px;
+    background:rgba(5,5,10,.72); backdrop-filter:blur(2px);
+    color:var(--muted); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  .loading.on{opacity:1}
+  .spinner{
+    width:34px; height:34px; border-radius:50%;
+    border:2px solid rgba(255,255,255,.12);
+    border-top-color:#c084fc;
+    animation:spin .9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .flip{animation:flip .5s cubic-bezier(.2,.8,.2,1)}
+  @keyframes flip{
+    from{transform:scale(.94) rotate(-1.5deg); opacity:0}
+    to{transform:scale(1) rotate(0); opacity:1}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= СТАРТ ================= -->
+<div id="start">
+  <div class="bg-cards" id="bgCards" aria-hidden="true"></div>
+  <div class="start-inner">
+    <div class="start-kicker">пять минут в середине дня</div>
+    <h2 class="start-title">Перезагрузить мозг</h2>
+    <p class="start-sub">
+      Один вопрос и одна сюрреалистичная карта дня. Без обсуждений,
+      без советов — просто короткая пауза, чтобы выдохнуть и вернуться.
+    </p>
+    <button class="btn" id="startBtn">Начать 5-минутку</button>
+  </div>
+</div>
+
+<!-- ================= РАБОЧИЙ ЭКРАН ================= -->
+<div id="app" hidden>
+  <div class="app-inner">
+    <div>
+      <h1>Перезагрузить мозг</h1>
+      <p class="sub">Вопрос слева, карта дня справа. Пять минут — и обратно.</p>
+    </div>
+
+    <button class="btn" id="btn">Перезагрузить мозг</button>
+
+    <div class="panels">
+      <section class="panel">
+        <div class="label">Вопрос дня</div>
+        <div class="qtext" id="qtext">Нажми кнопку — и появится вопрос.</div>
+        <div class="qmeta" id="qmeta"></div>
+      </section>
+
+      <section class="panel">
+        <div class="label">Карта дня</div>
+        <div class="card-wrap" id="tarot">
+          <canvas id="cv"></canvas>
+          <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>рисуем сцену…</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- БАНК ВОПРОСОВ ---------- */
+const QUESTIONS = [
+  "Лучший бутерброд — это какой?",
+  "Что бы вы сделали с лишним часом в середине дня?",
+  "Какой город хотите посмотреть следующим?",
+  "Какая еда из детства до сих пор лучшая?",
+  "Какой звук вас мгновенно успокаивает?",
+  "Что вы купили за последний месяц и не пожалели?",
+  "Какой фильм пересматриваете чаще всего?",
+  "Что берёте с собой в отпуск первым делом?",
+  "Какая мелочь сегодня была приятной?",
+  "Какой запах возвращает вас в детство?",
+  "Что вы откладываете уже давно — и это нормально?",
+  "Какая песня у вас в голове сегодня?",
+  "Что вы сделали впервые за последний год?",
+  "Какой у вас идеальный завтрак?",
+  "Куда бы вы поехали на один день без плана?",
+  "Что вам помогает, когда ничего не хочется?",
+  "Какой самый странный комплимент вы получали?",
+  "Чему вы научились за последние полгода?",
+  "Какой предмет из офиса вы бы забрали домой?",
+  "Что вы никогда не будете готовить сами?",
+  "Какая у вас суперспособность в быту?",
+  "Какой последний сериал вы досмотрели?",
+  "Что лучше: утро или вечер? Одним словом почему?",
+  "Какой ваш ритуал перед сложной задачей?",
+  "Что бы вы сделали, если бы завтра был выходной без обязательств?",
+  "Какая вещь всегда в вашей сумке?",
+  "Какой самый полезный совет вы слышали?",
+  "Что вы сегодня сделали достаточно хорошо?",
+  "Какое блюдо вы бы заказали прямо сейчас?",
+  "Где вам легче думается?",
+  "Какой цвет у вас сейчас в настроении?",
+  "Что можно отложить до завтра без последствий?"
+];
+
+/* =========================================================
+   ГЕНЕРАТОР СЮРРЕАЛИСТИЧНЫХ ПРОМПТОВ
+   ========================================================= */
+const SUBJECTS = [
+  "a little girl in a yellow raincoat",
+  "an old fisherman with a lantern instead of a head",
+  "a giant ballerina made of porcelain",
+  "a businessman in a suit floating upside down",
+  "a grandmother riding a shopping cart",
+  "a boy with a television for a head",
+  "a bride with a bouquet of burning matches",
+  "a postman carrying a door on his back",
+  "a chef with octopus tentacles for arms",
+  "a librarian whose hair is a waterfall",
+  "a soldier made entirely of clock parts",
+  "a child holding a jar full of tiny galaxies",
+  "a pianist with a piano growing out of his chest",
+  "a gardener watering flowers that grow downwards",
+  "a diver wearing a suit and tie",
+  "a cat in a trench coat holding a briefcase"
+];
+
+const ACTIONS = [
+  "sliding down a rainbow slide",
+  "rowing a boat through a wheat field",
+  "climbing a staircase that leads into the sky",
+  "dancing on the surface of a giant teacup",
+  "fishing in a swimming pool full of stars",
+  "opening a door that stands alone in the desert",
+  "carrying a giant key through a narrow corridor",
+  "reading a newspaper while standing on a floating rock",
+  "juggling glowing planets",
+  "walking a tightrope between two skyscrapers",
+  "pouring tea from a teapot into the ocean",
+  "painting a door on a brick wall that becomes real",
+  "riding a bicycle made of clouds",
+  "digging a hole that leads to another sky",
+  "holding an umbrella over a burning piano",
+  "sailing a paper boat across a flooded city"
+];
+
+const ENVIRONMENTS = [
+  "a sea made entirely of melted candy",
+  "a forest of giant spoons and forks",
+  "a desert of broken clocks",
+  "an ocean of boiling oil beneath a calm surface",
+  "a city where all buildings are upside down",
+  "a field of floating doors",
+  "a lake of spilled milk reflecting a red moon",
+  "a canyon filled with sleeping whales",
+  "a library where books grow like trees",
+  "a kitchen the size of a stadium",
+  "a snowy landscape made of sugar",
+  "a jungle of telephone poles and vines",
+  "a room with no walls but many windows",
+  "a beach of crushed glass and golden fish",
+  "a train station where trains are made of water",
+  "a garden of giant human hands growing from soil"
+];
+
+const BACKGROUNDS = [
+  "under a sky with three suns",
+  "beneath a giant floating whale",
+  "with a staircase spiraling into the clouds",
+  "while a city burns quietly in the distance",
+  "under an eclipse that never ends",
+  "with mountains that are actually sleeping giants",
+  "as a storm of paper birds passes overhead",
+  "with a colossal eye watching from the horizon",
+  "while the ground cracks open into a second sky",
+  "under a moon that is a giant cracked mirror",
+  "with a waterfall pouring upward into the clouds",
+  "while dozens of clocks fall from the sky",
+  "with a cathedral floating upside down above",
+  "as a flock of flamingos carries a piano",
+  "beneath a sky painted like a Renaissance fresco",
+  "while a silent train crosses a bridge of light"
+];
+
+const WEIRD_DETAILS = [
+  "and on the bottom of the sea, oil is boiling",
+  "while a small dog in a suit watches silently",
+  "and every object casts a shadow of a different object",
+  "while rain falls upward",
+  "and the sky is stitched together with golden thread",
+  "while a giant hand reaches out from the clouds",
+  "and the horizon is folded like a sheet of paper",
+  "while a choir of mannequins sings in the distance",
+  "and all the clocks show the same impossible time",
+  "while a staircase leads into a painting on the wall",
+  "and a whale swims through the air above",
+  "while the ground is covered in thousands of tiny doors",
+  "and a second sun rises inside a glass bottle",
+  "while a man in a boat rows across the ceiling",
+  "and a giant eyeball floats in a teacup",
+  "while every window shows a different season"
+];
+
+const MOODS = [
+  "dreamlike and unsettling",
+  "melancholic but beautiful",
+  "absurd and playful",
+  "eerie and quiet",
+  "warm and nostalgic with a strange twist",
+  "cold, vast and lonely",
+  "chaotic and colorful",
+  "mysterious and hypnotic"
+];
+
+/* ---------- СТИЛЬ: 2D / КОМИКС, ПЛОСКИЕ ЦВЕТА, ЧЁТКИЕ КОНТУРЫ ---------- */
+const STYLES = [
+  "flat 2D comic book art, thick black ink outlines, flat solid colors, no gradients, no shading, no texture",
+  "cartoon illustration, bold clean linework, flat vibrant fills, cel shading only, crisp edges",
+  "graphic novel panel, heavy black contours, flat saturated colors, hard shadows, no realism",
+  "pop-art comic style, thick outlines, flat bright colors, halftone dots, strong black shapes",
+  "2D animation cel, clean outlines, flat colors, simple shading, high saturation",
+  "ligne claire comic style, uniform black outlines, flat colors, no gradients, poster-like",
+  "underground comic art, thick irregular ink lines, flat electric colors, stark black shadows",
+  "vector cartoon poster, bold outlines, flat intense colors, no texture, high graphic contrast"
+];
+
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+function buildPrompt(){
+  const subject = pick(SUBJECTS);
+  const action  = pick(ACTIONS);
+  const env     = pick(ENVIRONMENTS);
+  const bg      = pick(BACKGROUNDS);
+  const weird   = pick(WEIRD_DETAILS);
+  const mood    = pick(MOODS);
+  const style   = pick(STYLES);
+
+  // стиль — В НАЧАЛЕ, чтобы модель не «додумывала» реализм
+  return `2D comic book illustration, flat cartoon art, thick clean black outlines, ` +
+         `flat solid vivid colors, high contrast, cel shading, crisp sharp edges. ` +
+         `Scene: ${subject} ${action} in ${env}, ${bg}, ${weird}. ` +
+         `Mood: ${mood}. Style: ${style}. ` +
+         `Vertical composition. ` +
+         `NOT photorealistic, NOT 3D render, NOT realistic painting, NOT photography, ` +
+         `no gradients, no soft shading, no blur, no texture, no text, no letters, no words, no watermark`;
+}
+
+/* ---------- КАНВАС ---------- */
+const cv = document.getElementById("cv");
+const tarotEl = document.getElementById("tarot");
+const loading = document.getElementById("loading");
+const qtext = document.getElementById("qtext");
+const qmeta = document.getElementById("qmeta");
+
+function setupCanvas(){
+  const rect = cv.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const W = Math.max(1, rect.width), H = Math.max(1, rect.height);
+  cv.width = Math.round(W * dpr);
+  cv.height = Math.round(H * dpr);
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, W, H };
+}
+
+/* запасная отрисовка в комикс-стиле, если сеть недоступна */
+function drawFallback(seed){
+  const { ctx, W, H } = setupCanvas();
+  let a = seed | 0;
+  const R = () => {
+    a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+  const brights = ["#ff2d75","#00e5ff","#ffe600","#7cff4f","#ff7a00","#b14cff"];
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, "#00e5ff");
+  g.addColorStop(1, "#ff2d75");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // «лучи» комикса
+  ctx.save();
+  ctx.translate(W/2, H*0.45);
+  for(let i = 0; i < 18; i++){
+    ctx.rotate((Math.PI*2)/18);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(W, -H*0.06);
+    ctx.lineTo(W,  H*0.06);
+    ctx.closePath();
+    ctx.fillStyle = R() > 0.5 ? "rgba(255,255,255,.16)" : "rgba(0,0,0,.10)";
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // фигуры с чёрным контуром
+  const n = 6 + Math.floor(R()*5);
+  for(let i = 0; i < n; i++){
+    const x = R()*W, y = R()*H, s = W*(0.05 + R()*0.12);
+    ctx.beginPath();
+    if(R() > 0.5) ctx.arc(x, y, s, 0, Math.PI*2);
+    else { ctx.rect(x - s, y - s*0.7, s*2, s*1.4); }
+    ctx.fillStyle = brights[Math.floor(R()*brights.length)];
+    ctx.fill();
+    ctx.lineWidth = 3 + R()*4;
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+  }
+
+  // контур-рамка
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = "#000";
+  ctx.strokeRect(3, 3, W - 6, H - 6);
+}
+
+function drawNeuro(prompt, seed){
+  const { ctx, W, H } = setupCanvas();
+  return new Promise(resolve => {
+    const url = "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt) +
+                `?width=${Math.round(W * 2)}&height=${Math.round(H * 2)}` +
+                `&model=flux&nologo=true&enhance=false&seed=${seed}`;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    const timer = setTimeout(() => resolve(false), 40000);
+    img.onload  = () => { clearTimeout(timer); ctx.drawImage(img, 0, 0, W, H); resolve(true); };
+    img.onerror = () => { clearTimeout(timer); resolve(false); };
+    img.src = url;
+  });
+}
+
+/* ---------- СТАРТОВЫЙ ФОН ИЗ КАРТОЧЕК ---------- */
+function buildBgCards(){
+  const holder = document.getElementById("bgCards");
+  const total = 60;
+  const frag = document.createDocumentFragment();
+  for(let i = 0; i < total; i++){
+    const card = document.createElement("div");
+    card.className = "bg-card";
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    const txt = document.createElement("div");
+    txt.textContent = QUESTIONS[Math.floor(Math.random() * QUESTIONS.length)];
+    card.appendChild(dot);
+    card.appendChild(txt);
+    frag.appendChild(card);
+  }
+  holder.appendChild(frag);
+}
+buildBgCards();
+
+/* ---------- ЛОГИКА ---------- */
+let lastQ = -1, lastSeed = 0, lastMode = "neuro", busy = false;
+
+async function generate(){
+  if(busy) return;
+  busy = true;
+  loading.classList.add("on");
+
+  if(QUESTIONS.length > 1){
+    let qi; do { qi = Math.floor(Math.random() * QUESTIONS.length); } while(qi === lastQ);
+    lastQ = qi;
+  } else lastQ = 0;
+  qtext.textContent = QUESTIONS[lastQ];
+  qmeta.textContent = new Date().toLocaleDateString("ru-RU", { weekday:"long", day:"numeric", month:"long" });
+
+  lastSeed = (Math.random() * 2 ** 31) | 0;
+  const prompt = buildPrompt();
+
+  tarotEl.classList.remove("flip");
+  void tarotEl.offsetWidth;
+  tarotEl.classList.add("flip");
+
+  lastMode = "neuro";
+  const ok = await drawNeuro(prompt, lastSeed);
+  if(!ok){
+    lastMode = "fallback";
+    drawFallback(lastSeed);
+    qmeta.textContent += " · нейросеть недоступна, нарисовал сам";
+  }
+
+  loading.classList.remove("on");
+  busy = false;
+}
+
+document.getElementById("startBtn").addEventListener("click", () => {
+  document.getElementById("start").classList.add("hide");
+  document.getElementById("app").hidden = false;
+  requestAnimationFrame(() => setTimeout(generate, 60));
+});
+
+document.getElementById("btn").addEventListener("click", generate);
+document.addEventListener("keydown", e => {
+  if(e.code === "Space" || e.code === "Enter"){
+    const startHidden = document.getElementById("start").classList.contains("hide");
+    if(startHidden){ e.preventDefault(); generate(); }
+  }
+});
+
+window.addEventListener("resize", () => {
+  if(lastMode === "fallback") drawFallback(lastSeed);
+});
+</script>
+</body>
+</html>
