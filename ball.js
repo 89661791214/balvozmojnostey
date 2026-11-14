@@ -33,7 +33,7 @@ function toggleFaq(btn) {
 /* ===== ОБРАТНЫЙ ОТСЧЁТ =====
    Конец регистрации: 21 ноября 2026, 23:59 МСК.
 */
-const REG_END_DATE = new Date('2026-11-21T23:59:59+03:00').getTime();
+const REG_END_DATE = new Date('2026-11-29T23:59:59+03:00').getTime();
 
 function pad(n) {
   return String(n).padStart(2, '0');
