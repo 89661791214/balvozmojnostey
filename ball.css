@@ -668,6 +668,33 @@ footer p { color: #888; font-size: .85rem; margin-bottom: 4px; }
 .footer-tg a:hover { text-decoration: underline; }
 footer .footer-copy { margin-top: 10px; font-size: .75rem; }
 
+/* ===== FOOTER DOWNLOAD BUTTON ===== */
+.footer-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-download {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  box-shadow: none;
+  font-size: .85rem;
+  padding: 10px 22px;
+}
+
+.footer-download:hover {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(249, 172, 23, .45);
+}
+
+.footer-download i {
+  font-size: .95rem;
+}
 /* ===== TOAST ===== */
 .toast {
   position: fixed;
