@@ -667,7 +667,207 @@ footer p { color: #888; font-size: .85rem; margin-bottom: 4px; }
 }
 .footer-tg a:hover { text-decoration: underline; }
 footer .footer-copy { margin-top: 10px; font-size: .75rem; }
+ /* ===== GENDER CALLOUT ===== */
+.gender-section {
+  background: var(--bg);
+  transition: background .3s;
+}
 
+.gender-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--panel);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  border-top: 4px solid var(--primary);
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.gender-text {
+  flex: 1 1 340px;
+  min-width: 0;
+}
+
+.gender-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: .72rem;
+  padding: 7px 14px;
+  border-radius: 50px;
+  margin-bottom: 16px;
+}
+
+.gender-text h2 {
+  font-size: 1.8rem;
+  margin-bottom: 14px;
+}
+
+.gender-text p {
+  font-size: .95rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.gender-text p strong {
+  color: var(--text);
+}
+
+.gender-note {
+  font-size: .88rem;
+  border-left: 3px solid var(--primary);
+  padding-left: 12px;
+  margin-bottom: 20px;
+}
+
+.gender-btn {
+  font-size: .9rem;
+  padding: 12px 26px;
+}
+
+/* --- Chart --- */
+.gender-chart-wrap {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.gender-chart {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  /* 80% девушек (primary), 20% парней (переменная) */
+  background: conic-gradient(
+    var(--primary) 0 80%,
+    var(--chart-boys) 80% 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+/* «Пончик»: белая/тёмная середина */
+.gender-chart::before {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: var(--panel);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.gender-chart-center {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.chart-big {
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.8rem;
+  color: var(--primary);
+}
+
+.chart-small {
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.gender-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-girls {
+  background: var(--primary);
+}
+
+.legend-boys {
+  background: var(--chart-boys);
+}
+
+/* --- Цвет парней: светлая тема — тёмно-коричневый --- */
+:root {
+  --chart-boys: #4A2E1A;
+}
+
+/* --- Тёмная тема — белый с оранжевым свечением --- */
+[data-theme="dark"] {
+  --chart-boys: #FFFFFF;
+}
+
+[data-theme="dark"] .gender-chart {
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, .5),
+    0 0 22px rgba(249, 172, 23, .55),
+    0 0 6px rgba(249, 172, 23, .9);
+}
+
+[data-theme="dark"] .gender-chart::before {
+  box-shadow: inset 0 0 0 1px rgba(249, 172, 23, .35);
+}
+
+[data-theme="dark"] .legend-boys {
+  background: #FFFFFF;
+  box-shadow: 0 0 10px rgba(249, 172, 23, .8);
+}
+
+/* --- Мобильная адаптация --- */
+@media (max-width: 820px) {
+  .gender-card {
+    padding: 28px 22px;
+    gap: 28px;
+    flex-direction: column;
+    text-align: center;
+  }
+  .gender-text h2 { font-size: 1.5rem; }
+  .gender-note {
+    border-left: none;
+    border-top: 2px solid var(--primary);
+    padding: 10px 0 0;
+  }
+  .gender-chart { width: 200px; height: 200px; }
+  .chart-big { font-size: 1.5rem; }
+  .gender-legend { align-items: center; }
+}
 /* ===== FOOTER DOWNLOAD BUTTON ===== */
 .footer-actions {
   margin-top: 18px;
