@@ -455,10 +455,10 @@ input, textarea { font-family: inherit; }
 }
 
 [data-theme="dark"] .gender-chart {
-  /* Тёмная тема: 80% оранжевый + 20% белый, со свечением */
+  /* Тёмная тема: 60% оранжевый + 40% белый, со свечением */
   background: conic-gradient(
-    #F9AC17 0 80%,
-    #FFFFFF 80% 100%
+    #F9AC17 0 60%,
+    #FFFFFF 60% 100%
   );
   box-shadow:
     0 10px 30px rgba(0, 0, 0, .5),
